@@ -1,0 +1,100 @@
+import telebot
+
+token = '686020719:AAHVO1JVWV73zOK5-ej2D06RC0Mg2SdzJG8'
+bot = telebot.TeleBot(token)
+
+####### Função comparar texto e responder ########
+def responder(messages):
+    url = 'https://www.google.com.br/search?q='
+    for m in messages:
+        chatid = m.chat.id
+        if m.content_type == 'text':
+            text = str(m.text)
+            if(text.lower().__contains__('arroz') ):
+
+                if(text.lower() == 'arroz'):
+                    doc = open('arroz.txt', 'r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid, doc)
+
+                elif(text.lower().__contains__('de forno')):
+                    doc = open('arrozdeforno.txt', 'r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid, doc)
+
+                elif(text.lower().__contains__('a grega')):
+                    doc = open('arrozagrega.txt', 'r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid, doc)
+
+                elif (text.lower().__contains__('farofa')):
+                    doc = open('arrozfarofa.txt', 'r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid, doc)
+                else:
+                    busca = text.split(' ')
+                    busca2 = ''
+                    for i in busca:
+                        busca2 = busca2 + i
+                    bot.send_message(chatid,'Ops, não encontrei nada nos meus registros, mas aqui vai o link de uma pesquisa que eu fiz:\n\n'+url+busca2)
+
+            elif(text.lower().__contains__('feijao')):
+
+                if(text.lower() == 'feijao'):
+                    doc = open('feijao.txt','r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid,doc)
+
+                else:
+                    busca = text.split(' ')
+                    busca2 = ''
+                    for i in busca:
+                        busca2 = busca2 + i
+                    bot.send_message(chatid,'Ops, não encontrei nada nos meus registros, mas aqui vai o link de uma pesquisa que eu fiz:\n\n'+url+busca2)
+
+            elif(text.lower().__contains__('macarrao')):
+
+                if(text.lower() == 'macarrao'):
+                    doc = open('macarrao.txt','r')
+                    bot.send_message(chatid, 'Aqui está sua receita! Espero que dê certo :)')
+                    bot.send_document(chatid,doc)
+                else:
+                    busca = text.split(' ')
+                    busca2 = ''
+                    for i in busca:
+                        busca2 = busca2 + i
+                    bot.send_message(chatid,'Ops, não encontrei nada nos meus registros, mas aqui vai o link de uma pesquisa que eu fiz:\n\n' +url+busca2)
+        else:
+            busca = text.split(' ')
+            busca2 = ''
+            for i in busca:
+                busca2 = busca2 + i
+            bot.send_message(chatid,'Ops, não encontrei nada nos meus registros, mas aqui vai o link de uma pesquisa que eu fiz:\n\n' +url+busca2)
+
+
+####### Definição de Comandos #######
+
+@bot.message_handler(commands=['start'])
+def command_start(message):
+    bot.reply_to(message, "Olá, seja bem vindo ao assistente culinário Socorro Na Cozinha! \n\n Selecione um comando para continuar:\n\n"
+                          "/consultar - Busque pela receita de deseja\n\n/cadastrar - Cadastre as suas próprias receitas para consultar depois\n\n"
+                          "/sugestao - Receba a nossa sugestão de receita")
+
+@bot.message_handler(commands=['consultar'])
+def command_consultar(message):
+    bot.reply_to(message, "Digite o nome da receita que deseja aprender e eu procurarei para você! \n Mas por favor não utilize acentos ortográficos, nunca fui muito fã deles :/")
+
+@bot.message_handler(commands=['cadastrar'])
+def command_cadastrar(message):
+    bot.reply_to(message,"Humm, parece que sou eu quem vou aprender hoje! \n\nMande a sua receita para mim em uma única mensagem e eu irei salvá-la aqui no meu caderninho!")
+
+@bot.message_handler(commands=['sugestao'])
+def command_sugerir(message):
+    bot.reply_to(message,"Eu adoro quando posso escolher! \n\nVou caprichar na opção!")
+
+######## Checagem de Mensagens #########
+bot.set_update_listener(responder)
+bot.polling()
+
+while True:
+    pass
