@@ -90,7 +90,7 @@ def command_cadastrar(message):
 
 @bot.message_handler(commands=['sugestao'])
 def command_sugerir(message):
-    bot.reply_to(message,"Eu adoro quando posso escolher! \n\nVou caprichar na opção!")
+    bot.reply_to(message,"Eu adoro quando posso escolher! \n\nVou caprichar na opção!\n")
 
 ######## Checagem de Mensagens #########
 bot.set_update_listener(responder)
