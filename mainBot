@@ -1,4 +1,5 @@
 import telebot
+import random
 
 token = '686020719:AAHVO1JVWV73zOK5-ej2D06RC0Mg2SdzJG8'
 bot = telebot.TeleBot(token)
@@ -71,26 +72,30 @@ def responder(messages):
                 busca2 = busca2 + i
             bot.send_message(chatid,'Ops, não encontrei nada nos meus registros, mas aqui vai o link de uma pesquisa que eu fiz:\n\n' +url+busca2)
 
+####### Definição das receitas ######
+receitas = ['arroz.txt', 'arrozagrega.txt', 'arrozdeforno.txt', 'arrozfarofa.txt', 'feijao.txt', 'macarrao.txt']
 
 ####### Definição de Comandos #######
 
 @bot.message_handler(commands=['start'])
 def command_start(message):
     bot.reply_to(message, "Olá, seja bem vindo ao assistente culinário Socorro Na Cozinha! \n\n Selecione um comando para continuar:\n\n"
-                          "/consultar - Busque pela receita de deseja\n\n/cadastrar - Cadastre as suas próprias receitas para consultar depois\n\n"
-                          "/sugestao - Receba a nossa sugestão de receita")
+                          "/consultar - Busque pela receita de deseja\n\n/sugestao - Receba a nossa sugestão de receita")
 
 @bot.message_handler(commands=['consultar'])
 def command_consultar(message):
     bot.reply_to(message, "Digite o nome da receita que deseja aprender e eu procurarei para você! \n Mas por favor não utilize acentos ortográficos, nunca fui muito fã deles :/")
 
-@bot.message_handler(commands=['cadastrar'])
-def command_cadastrar(message):
-    bot.reply_to(message,"Humm, parece que sou eu quem vou aprender hoje! \n\nMande a sua receita para mim em uma única mensagem e eu irei salvá-la aqui no meu caderninho!")
-
 @bot.message_handler(commands=['sugestao'])
 def command_sugerir(message):
+    id = message.chat.id
     bot.reply_to(message,"Eu adoro quando posso escolher! \n\nVou caprichar na opção!\n")
+    x = random.choice(receitas)
+    doc = open(x,'r')
+    bot.send_document(chat_id=id,data=doc)
+
+
+
 
 ######## Checagem de Mensagens #########
 bot.set_update_listener(responder)
